@@ -1,1 +1,53 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en-US">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CS6750: Project</title>
+</head>
+ 
+<body>
+    <!--<img src="instant_pot.png"> -->
+    <div><h1 id="display">0</text></h1></div>
+    <button onclick="myFunction()">Rice</button>
+    <button onclick="myIncrement()">+</button>
+    <button onclick="myDecrement()">-</button>
+    <button onclick="myStart()">Start</button>
+
+
+    <script>
+        let count = 0;
+        var audio = new Audio("game-start-6104.mp3");
+        function myFunction() {
+            if(typeof myVar !== 'undefined') {clearTimeout(myVar)}
+            document.getElementById("display").innerHTML = 15;
+            count = 15;
+            myVar = setTimeout(function(){
+                audio.play();}, 10000);
+        }
+        function myIncrement() {
+            clearTimeout(myVar)
+            count = count + 1;
+            document.getElementById("display").innerHTML = count;
+            myVar = setTimeout(function(){
+                audio.play();}, 10000);
+        }
+        function myDecrement() {
+            clearTimeout(myVar)
+            count = count - 1;
+            document.getElementById("display").innerHTML = count;
+            myVar = setTimeout(function(){
+                audio.play();}, 10000);
+        }
+        function myStart() {
+            audio.play();
+        }
+
+    </script>
+
+    
+ 
+</body>
+ 
+</html>
