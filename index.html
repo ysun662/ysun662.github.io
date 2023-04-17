@@ -9,40 +9,245 @@
  
 <body>
     <!-- <img src="instant_pot.png"> -->
-    <div><h1 id="display">0</text></h1></div>
-    <button onclick="myFunction()">Rice</button>
+    <div style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></div>
+    
+    <font size="7" id="LEDL">-</font>
+    <font size="7" id="LEDH">-</font>
+    <br>
+    <font size="7" id="LEDkL">-</font>
+    <font size="7" id="LEDkN">-</font>
+    <font size="7" id="LEDkH">-</font>
+    <br>
+    <font size="7" id="LED1">.</font>
+    <button onclick="myFunction(0, 30, 'H', 'N', 'LED1')">Soup</button>
+    <font size="7" id="LED2">.</font>
+    <button onclick="myFunction(0, 35, 'H', 'N', 'LED2')">Meat</button>
+    <font size="7" id="LED3">.</font>
+    <button onclick="myFunction(0, 30, 'H', 'N', 'LED3')">Bean</button>
+    <font size="7" id="LED4">.</font>
+    <button onclick="myFunction(0, 15, 'H', 'N', 'LED4')">Poultry</button>
+    <font size="7" id="LED5">.</font>
+    <button onclick="myFunction(0, 15, 'L','X', 'LED5')">Rice</button>
+    <font size="7" id="LED6">.</font>
+    <button onclick="myFunction(0, 40, 'H', 'N', 'LED6')">Multi</button>
+    <font size="7" id="LED7">.</font>
+    <button onclick="myFunction(0, 20, 'H', 'N', 'LED7')">Porr</button> 
+    <font size="7" id="LED8">.</font>
+    <button onclick="myFunction(0, 10, 'H', 'N', 'LED8')">Steam</button>
+    <font size="7" id="LED9">.</font>
+    <button onclick="myFunction(4, 00,'X', 'N', 'LED9')">Slow</button> 
+    <font size="7" id="LED10">.</font>
+    <button onclick="myFunction(0, 30,'X', 'N', 'LED10')">Saute</button>
+    <font size="7" id="LED11">.</font>
+    <button onclick="myFunction(8, 00,'X', 'N', 'LED11')">Yogurt</button>
+    <font size="7" id="LED12">.</font>
+    <button onclick="myFunction(0, 30, 'H', 'X', 'LED12')">Manual</button>
+    <br>
+
     <button onclick="myIncrement()">+</button>
     <button onclick="myDecrement()">-</button>
+    <br>
+    <button onclick="myPressure()">Pressure</button>
+    <button onclick="myAdjust()">Temperature</button>
+    
+    <button onclick="myDelay(6,00)">Delay</button>
+    <button onclick="myCancel()">Keep Warm/Cancel</button>
+
     <button onclick="myStart()">Start</button>
 
 
     <script>
-        let count = 0;
+        let state = 'OFF';
         var audio = new Audio("game-start-6104.mp3");
-        function myFunction() {
+        var beep = new Audio("beep-sound-8333.mp3");
+        function myFunction(hour,time, pressure, key, led) {
+            state = 'ON';
+            beep.play();
             if(typeof myVar !== 'undefined') {clearTimeout(myVar)}
-            document.getElementById("display").innerHTML = 15;
-            count = 15;
+            setTime(hour, time);
+            pressure_setting = pressure;
+            key_setting = key;
+            if(typeof led_id !== 'undefined'){document.getElementById(led_id).style.color = "black";}
+            led_id = led;
+            document.getElementById(led_id).style.color = "red";
+            if (pressure_setting == 'H'){
+            document.getElementById("LEDH").style.color = "red";
+            document.getElementById("LEDL").style.color = "black";}
+            else if (pressure_setting == 'L'){
+            document.getElementById("LEDH").style.color = "black";
+            document.getElementById("LEDL").style.color = "red";}
+            else {
+            document.getElementById("LEDH").style.color = "black";
+            document.getElementById("LEDL").style.color = "black";}
+            if (key_setting == 'L'){
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkN").style.color = "black";
+            document.getElementById("LEDkL").style.color = "red";}
+            else if (key_setting == 'N'){
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkN").style.color = "red";
+            document.getElementById("LEDkL").style.color = "black";}
+            else {
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkL").style.color = "black";}
             myVar = setTimeout(function(){
                 audio.play();}, 10000);
         }
         function myIncrement() {
+            if(state == 'OFF') {return;}
+            beep.play();
             clearTimeout(myVar)
-            count = count + 1;
-            document.getElementById("display").innerHTML = count;
+            incrementTime();
             myVar = setTimeout(function(){
                 audio.play();}, 10000);
         }
         function myDecrement() {
+            if(state == 'OFF') {return;}
+            beep.play();
             clearTimeout(myVar)
-            count = count - 1;
-            document.getElementById("display").innerHTML = count;
+            decrementTime();
             myVar = setTimeout(function(){
                 audio.play();}, 10000);
         }
+        function myDelay(hour, time) {
+            if(state == 'OFF') {return;}
+            state = 'DELAY';
+            beep.play();
+            clearTimeout(myVar)
+            delay = time;
+            setTime(hour, time);
+            setTimeout(function(){
+                setTime(time);
+                myVar = setTimeout(function(){
+                audio.play();}, 10000);}, 10000);
+        }
+        function myPressure() {
+            if(state == 'OFF') {return;}
+            beep.play();
+            clearTimeout(myVar)
+            myVar = setTimeout(function(){
+                audio.play();}, 10000);
+                
+            if(pressure_setting == 'H'){
+                pressure_setting = 'L';
+                document.getElementById("LEDH").style.color = "black";
+                document.getElementById("LEDL").style.color = "red";
+            }
+            else if (pressure_setting == 'L'){
+                pressure_setting = 'H';
+                document.getElementById("LEDH").style.color = "red";
+                document.getElementById("LEDL").style.color = "black";
+            }
+        }
+
+        function myAdjust() {
+            if(state == 'OFF') {return;}
+            beep.play();
+            clearTimeout(myVar)
+            myVar = setTimeout(function(){
+                audio.play();}, 10000);
+                
+            if (key_setting == 'L'){
+                key_setting = 'N';
+                document.getElementById("LEDkH").style.color = "black";
+                document.getElementById("LEDkN").style.color = "red";
+                document.getElementById("LEDkL").style.color = "black";}
+            else if (key_setting == 'N'){
+                key_setting = 'H';
+                document.getElementById("LEDkH").style.color = "red";
+                document.getElementById("LEDkN").style.color = "black";
+                document.getElementById("LEDkL").style.color = "black";}
+            else if (key_setting == 'H'){
+                key_setting = 'L';
+                document.getElementById("LEDkH").style.color = "black";
+                document.getElementById("LEDkN").style.color = "black";
+                document.getElementById("LEDkL").style.color = "red";}
+            else {
+                document.getElementById("LEDkH").style.color = "black";
+                document.getElementById("LEDkH").style.color = "black";
+                document.getElementById("LEDkL").style.color = "black";}
+        }
+
+        function myCancel() {
+            if(state == 'OFF') {return;}
+            beep.play();
+            clearTimeout(myVar)
+            document.getElementById("MyClockDisplay").innerText = 'OFF';
+            myResetLED();
+            state = 'OFF';
+        }
+        function myResetLED() {
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkN").style.color = "black";
+            document.getElementById("LEDkL").style.color = "black";
+            document.getElementById("LEDH").style.color = "black";
+            document.getElementById("LEDL").style.color = "black";
+            document.getElementById(led_id).style.color = "black";
+        }
+
         function myStart() {
             audio.play();
         }
+
+        function showTime(){
+            var h = 0; // 0 - 23
+            var m = 0; // 0 - 59
+    
+            var hh = "0" + h;
+            var mm = "0" + m;
+            
+            var time = hh + ":" + mm ;
+            document.getElementById("MyClockDisplay").innerText = 'OFF';
+            
+        }
+        function incrementTime(){
+            h = h; // 0 - 23
+            m = m + 1; // 0 - 59
+            if(m > 59){
+                h = h + 1;
+                m = 0;
+            }
+            
+            hh = (h < 10) ? "0" + h : h;
+            mm = (m < 10) ? "0" + m : m;
+            
+            var time = hh + ":" + mm ;
+            document.getElementById("MyClockDisplay").innerText = time;
+            
+        
+        }        
+        function decrementTime(){
+            h = h; // 0 - 23
+            m = m - 1; // 0 - 59
+            if(m < 0){
+                h = Math.max(0, h-1);
+                m = 0;
+            }
+            
+            hh = (h < 10) ? "0" + h : h;
+            mm = (m < 10) ? "0" + m : m;
+            
+            var time = hh + ":" + mm ;
+            document.getElementById("MyClockDisplay").innerText = time;
+            
+        
+        }
+        function setTime(hour, min){
+            h = hour; // 0 - 23
+            m = min; // 0 - 59
+            
+            hh = (h < 10) ? "0" + h : h;
+            mm = (m < 10) ? "0" + m : m;
+            
+            var time = hh + ":" + mm ;
+            document.getElementById("MyClockDisplay").innerText = time;
+            
+        
+        }
+
+
+showTime();
 
     </script>
 
