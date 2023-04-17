@@ -5,11 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CS6750: Project</title>
+    <style> 
+        body { 
+        background-image: url("background.png"); 
+         background-repeat:no-repeat; 
+         background-size: 500px; 
+         background-position: center top; 
+        }  
+        div {
+            margin: 50px;
+        }
+        </style> 
 </head>
  
 <body>
-    <!-- <img src="instant_pot.png"> -->
-    <div style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></div> 
+    <!--<img src="background.png" width="500">-->
+    <div align = "center">
+    <text style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></text> <br>
     <font size="2" id="LEDOn">PREHEAT</font>
     <br>
     <button onclick="myIncrement()">+</button>
@@ -59,7 +71,7 @@
     <button onclick="myFunction(8, 00,'X', 'N', 'LED11')">Yogurt</button>
     <font size="7" id="LED12">.</font>
     <button onclick="myFunction(0, 30, 'H', 'X', 'LED12')">Manual</button>
-    
+    </div>
 
 
 
@@ -69,6 +81,9 @@
         var audio = new Audio("game-start-6104.mp3");
         var beep = new Audio("beep-sound-8333.mp3");
         document.getElementById("MyClockDisplay").style.color = "red";
+
+        var blink;
+
         function myFunction(hour,time, pressure, key, led) {
             state = 'ON';
             beep.play();
@@ -100,6 +115,7 @@
             document.getElementById("LEDkH").style.color = "black";
             document.getElementById("LEDkL").style.color = "black";}
             myResetTimeout();
+            myBlinkTimeout(1);
         }
         function myIncrement() {
             if(state == 'OFF') {return;}
@@ -170,8 +186,16 @@
 
         function myResetTimeout(){
             if(typeof myVar !== 'undefined') {clearTimeout(myVar);}
-            myVar = setTimeout(function(){
+            if(typeof blink !== 'undefined') {clearTimeout(blink);}
+            var myVar = setTimeout(function(){
                 myStart();}, 10000);
+        }
+        
+        function myBlinkTimeout(opacity) {
+            console.log(opacity)
+            document.getElementById("MyClockDisplay").style.opacity = opacity;
+            opacity = (opacity + 1) % 2;
+            blink = setTimeout(function(){myBlinkTimeout(opacity);},500);
         }
 
         function myResetLED() {
@@ -194,13 +218,15 @@
                 myResetLED();
             }
             else{
+                clearTimeout(blink);
+                document.getElementById("MyClockDisplay").style.opacity = 1;
                 state = 'START';
                 audio.play();
                 document.getElementById("MyClockDisplay").innerText = 'On';
                 document.getElementById("LEDOn").style.color = "red";
             }
-
         }
+
 
         function showTime(){
             var h = 0; // 0 - 23
