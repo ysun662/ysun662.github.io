@@ -9,15 +9,31 @@
  
 <body>
     <!-- <img src="instant_pot.png"> -->
-    <div style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></div>
+    <div style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></div> 
+    <font size="2" id="LEDOn">PREHEAT</font>
+    <br>
+    <button onclick="myIncrement()">+</button>
+    <button onclick="myDecrement()">-</button>
+    <button onclick="myStart()">Start/Cancel</button>
+    <br>    
+    <button onclick="myDelay(6,00)">Delay</button>
+    <button onclick="myKeepWarm()">Keep Warm</button>
+    <br>
+    <br>
     
+    <font size="2" >PRESSURE</font>
     <font size="7" id="LEDL">-</font>
     <font size="7" id="LEDH">-</font>
+    <button onclick="myPressure()">Pressure</button>
     <br>
+    
+    
+    <font size="2" >TEMP</font>
     <font size="7" id="LEDkL">-</font>
     <font size="7" id="LEDkN">-</font>
     <font size="7" id="LEDkH">-</font>
-    <br>
+    <button onclick="myAdjust()">Temperature</button>
+    <br>    <hr>
     <font size="7" id="LED1">.</font>
     <button onclick="myFunction(0, 30, 'H', 'N', 'LED1')">Soup</button>
     <font size="7" id="LED2">.</font>
@@ -34,6 +50,7 @@
     <button onclick="myFunction(0, 20, 'H', 'N', 'LED7')">Porr</button> 
     <font size="7" id="LED8">.</font>
     <button onclick="myFunction(0, 10, 'H', 'N', 'LED8')">Steam</button>
+
     <font size="7" id="LED9">.</font>
     <button onclick="myFunction(4, 00,'X', 'N', 'LED9')">Slow</button> 
     <font size="7" id="LED10">.</font>
@@ -42,28 +59,19 @@
     <button onclick="myFunction(8, 00,'X', 'N', 'LED11')">Yogurt</button>
     <font size="7" id="LED12">.</font>
     <button onclick="myFunction(0, 30, 'H', 'X', 'LED12')">Manual</button>
-    <br>
-
-    <button onclick="myIncrement()">+</button>
-    <button onclick="myDecrement()">-</button>
-    <br>
-    <button onclick="myPressure()">Pressure</button>
-    <button onclick="myAdjust()">Temperature</button>
     
-    <button onclick="myDelay(6,00)">Delay</button>
-    <button onclick="myCancel()">Keep Warm/Cancel</button>
 
-    <button onclick="myStart()">Start</button>
+
 
 
     <script>
         let state = 'OFF';
         var audio = new Audio("game-start-6104.mp3");
         var beep = new Audio("beep-sound-8333.mp3");
+        document.getElementById("MyClockDisplay").style.color = "red";
         function myFunction(hour,time, pressure, key, led) {
             state = 'ON';
             beep.play();
-            if(typeof myVar !== 'undefined') {clearTimeout(myVar)}
             setTime(hour, time);
             pressure_setting = pressure;
             key_setting = key;
@@ -91,24 +99,19 @@
             document.getElementById("LEDkH").style.color = "black";
             document.getElementById("LEDkH").style.color = "black";
             document.getElementById("LEDkL").style.color = "black";}
-            myVar = setTimeout(function(){
-                audio.play();}, 10000);
+            myResetTimeout();
         }
         function myIncrement() {
             if(state == 'OFF') {return;}
             beep.play();
-            clearTimeout(myVar)
             incrementTime();
-            myVar = setTimeout(function(){
-                audio.play();}, 10000);
+            myResetTimeout();
         }
         function myDecrement() {
             if(state == 'OFF') {return;}
             beep.play();
-            clearTimeout(myVar)
             decrementTime();
-            myVar = setTimeout(function(){
-                audio.play();}, 10000);
+            myResetTimeout();
         }
         function myDelay(hour, time) {
             if(state == 'OFF') {return;}
@@ -125,9 +128,7 @@
         function myPressure() {
             if(state == 'OFF') {return;}
             beep.play();
-            clearTimeout(myVar)
-            myVar = setTimeout(function(){
-                audio.play();}, 10000);
+            myResetTimeout();
                 
             if(pressure_setting == 'H'){
                 pressure_setting = 'L';
@@ -144,9 +145,7 @@
         function myAdjust() {
             if(state == 'OFF') {return;}
             beep.play();
-            clearTimeout(myVar)
-            myVar = setTimeout(function(){
-                audio.play();}, 10000);
+            myResetTimeout();
                 
             if (key_setting == 'L'){
                 key_setting = 'N';
@@ -169,14 +168,12 @@
                 document.getElementById("LEDkL").style.color = "black";}
         }
 
-        function myCancel() {
-            if(state == 'OFF') {return;}
-            beep.play();
-            clearTimeout(myVar)
-            document.getElementById("MyClockDisplay").innerText = 'OFF';
-            myResetLED();
-            state = 'OFF';
+        function myResetTimeout(){
+            if(typeof myVar !== 'undefined') {clearTimeout(myVar);}
+            myVar = setTimeout(function(){
+                myStart();}, 10000);
         }
+
         function myResetLED() {
             document.getElementById("LEDkH").style.color = "black";
             document.getElementById("LEDkN").style.color = "black";
@@ -187,7 +184,22 @@
         }
 
         function myStart() {
-            audio.play();
+            if(state == 'OFF') {return;}
+            if(state == 'START'){
+                beep.play();
+                state = 'OFF';
+                clearTimeout(myVar)
+                document.getElementById("MyClockDisplay").innerText = 'OFF';
+                document.getElementById("LEDOn").style.color = "black";
+                myResetLED();
+            }
+            else{
+                state = 'START';
+                audio.play();
+                document.getElementById("MyClockDisplay").innerText = 'On';
+                document.getElementById("LEDOn").style.color = "red";
+            }
+
         }
 
         function showTime(){
