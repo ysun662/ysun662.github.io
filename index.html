@@ -9,11 +9,15 @@
         body { 
         background-image: url("background.png"); 
          background-repeat:no-repeat; 
-         background-size: 500px 820px; 
+         background-size: 500px; 
          background-position: center top; 
         }  
         div {
-            margin: 50px;
+            margin: 30px;
+        }
+        .mybutton{
+            height:50px;
+            width:50px;
         }
     </style> 
 
@@ -26,25 +30,53 @@
 <body>
     <!--<img src="background.png" width="500">-->
     <div align = "center" style="width=500px">
-    <text style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></text> <br>
-    <font size="2" id="LEDOn">PREHEAT</font> <br> <font size="2" id="p_set"></font> <br><font size="2" id="mode_set"></font> 
+        <font size="5" id="LED1">&#9679</font>
+        <button class = "mybutton" onclick="myFunction(0, 30, 'H', 'N', 'LED1', 'SOUP')">Soup</button>
+        <font size="5" id="LED2">&#9679</font>
+        <button class = "mybutton" onclick="myFunction(0, 35, 'H', 'N', 'LED2', 'MEAT')">Meat</button>
+        <!--
+        <font size="7" id="LED3">.</font>
+        <button onclick="myFunction(0, 30, 'H', 'N', 'LED3')">Bean</button>
+        <font size="7" id="LED4">.</font>
+        <button onclick="myFunction(0, 15, 'H', 'N', 'LED4')">Poultry</button>
+        <font size="7" id="LED5">.</font>
+        <button onclick="myFunction(0, 15, 'L','X', 'LED5')">Rice</button>
+        <font size="7" id="LED6">.</font>
+        <button onclick="myFunction(0, 40, 'H', 'N', 'LED6')">Multi</button>
+        <font size="7" id="LED7">.</font>
+        <button onclick="myFunction(0, 20, 'H', 'N', 'LED7')">Porr</button> 
+        <font size="7" id="LED8">.</font>
+        <button onclick="myFunction(0, 10, 'H', 'N', 'LED8')">Steam</button>
+        
+        -->
+        <font size="5" id="LED9">&#9679</font>
+        <button class = "mybutton" onclick="myFunction(4, 00,'X', 'N', 'LED9', 'SLOWCOOK')">Slow</button> 
+        <font size="5" id="LED10">&#9679</font>
+        <button class = "mybutton" onclick="myFunction(0, 30,'X', 'N', 'LED10', 'SAUTE')">Saute</button>
+        <!--
+        <font size="7" id="LED11">.</font>
+        <button onclick="myFunction(8, 00,'X', 'N', 'LED11')">Yogurt</button>
+        <font size="7" id="LED12">.</font>
+        <button onclick="myFunction(0, 30, 'H', 'X', 'LED12')">Manual</button>
+    -->
+    <font size="0" id="LED13"></font>
+    <br><br><br>
+    <font size="2" id="LEDOn">PREHEAT</font><font size="2" id="p_set"></font><font size="2" id="mode_set"></font> 
     <br>
-    <button onclick="myIncrement()">+</button>
-    <button onclick="myDecrement()">-</button>
+    <text style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></text> <br>
+    <button class = "mybutton" onclick="myIncrement()">+</button>
+    <button class = "mybutton" onclick="myDecrement()">-</button>
     <br>    
-    <button onclick="myKeepWarm()">Keep Warm</button>
-    <button onclick="myStart()">Start/Cancel</button>
+    <button class = "mybutton" onclick="myFunction(10, 00,'X', 'X', 'LED13', 'KEEPWARM')">Keep Warm</button>
+    <button class = "mybutton" onclick="myStart()" style="background-color:orange">Start/ Cancel</button>
 <!--    <button onclick="myDelay(6,00)">Delay</button> -->
     <br>
     <br>
-    
-    <font size="1" id ="low" >Low</font>
-    <font size="1" id = "high">High</font>
-    <br>
+
     <font size="2" >Pressure</font>
     <font size="4" id="LEDL">&#9605</font>
     <font size="4" id="LEDH">&#9605</font>
-    <button onclick="myPressure()">Pressure</button>
+    <button class = "mybutton" onclick="myPressure()">Pres sure</button>
     <br>
     
     
@@ -52,37 +84,9 @@
     <font size="4" id="LEDkL">&#9605</font>
     <font size="4" id="LEDkN">&#9605</font>
     <font size="4" id="LEDkH">&#9605</font>
-    <button onclick="myAdjust()">Adjust</button>
-    <br>    <hr>
-    <font size="5" id="LED1">&#9679</font>
-    <button onclick="myFunction(0, 30, 'H', 'N', 'LED1', 'SOUP')">Soup</button>
-    <font size="5" id="LED2">&#9679</font>
-    <button onclick="myFunction(0, 35, 'H', 'N', 'LED2', 'MEAT')">Meat</button>
-    <!--
-    <font size="7" id="LED3">.</font>
-    <button onclick="myFunction(0, 30, 'H', 'N', 'LED3')">Bean</button>
-    <font size="7" id="LED4">.</font>
-    <button onclick="myFunction(0, 15, 'H', 'N', 'LED4')">Poultry</button>
-    <font size="7" id="LED5">.</font>
-    <button onclick="myFunction(0, 15, 'L','X', 'LED5')">Rice</button>
-    <font size="7" id="LED6">.</font>
-    <button onclick="myFunction(0, 40, 'H', 'N', 'LED6')">Multi</button>
-    <font size="7" id="LED7">.</font>
-    <button onclick="myFunction(0, 20, 'H', 'N', 'LED7')">Porr</button> 
-    <font size="7" id="LED8">.</font>
-    <button onclick="myFunction(0, 10, 'H', 'N', 'LED8')">Steam</button>
-    
-    -->
-    <font size="5" id="LED9">&#9679</font>
-    <button onclick="myFunction(4, 00,'X', 'N', 'LED9', 'SLOWCOOK')">Slow</button> 
-    <font size="5" id="LED10">&#9679</font>
-    <button onclick="myFunction(0, 30,'X', 'N', 'LED10', 'SAUTE')">Saute</button>
-    <!--
-    <font size="7" id="LED11">.</font>
-    <button onclick="myFunction(8, 00,'X', 'N', 'LED11')">Yogurt</button>
-    <font size="7" id="LED12">.</font>
-    <button onclick="myFunction(0, 30, 'H', 'X', 'LED12')">Manual</button>
--->
+    <button class = "mybutton" onclick="myAdjust()">Adjust</button>
+    <br>
+
     </div>
 
 
@@ -103,6 +107,7 @@
         var blink;
 
         function myFunction(hour,time, pressure, key, led, preset) {
+            if(state == 'START'){return;}
             state = 'ON';
             program = preset;
             beep.play();
@@ -128,18 +133,7 @@
             decrementTime();
             myResetTimeout();
         }
-        function myDelay(hour, time) {
-            if(state == 'OFF') {return;}
-            state = 'DELAY';
-            beep.play();
-            clearTimeout(myVar)
-            delay = time;
-            setTime(hour, time);
-            setTimeout(function(){
-                setTime(time);
-                myVar = setTimeout(function(){
-                myResetTimeout();}, 10000);}, 10000);
-        }
+    
         function setmyPressure(setting){
             if(setting == 'H'){
             document.getElementById("LEDH").style.color = "red";
@@ -158,7 +152,7 @@
             }
         }
         function myPressure() {
-            if(state == 'OFF') {return;}
+            if(state == 'OFF' || state == 'START') {return;}
             beep.play();
             myResetTimeout();
                 
@@ -177,6 +171,7 @@
             document.getElementById("LEDkN").style.color = "black";
             document.getElementById("LEDkL").style.color = "red";
             if (program == 'KEEPWARM'){
+                console.log('keepwarm');
                 document.getElementById("mode_set").innerHTML = "63C";
             }else if (program == 'SLOWCOOK'){
                 document.getElementById("mode_set").innerHTML = "82-87C";
@@ -215,13 +210,17 @@
             }
         }
             else {
+                if (program == 'KEEPWARM'){
+                console.log('keepwarm');
+                document.getElementById("mode_set").innerHTML = "63C";
+                }
             document.getElementById("LEDkH").style.color = "black";
             document.getElementById("LEDkH").style.color = "black";
             document.getElementById("LEDkL").style.color = "black";
         }
         }
         function myAdjust() {
-            if(state == 'OFF') {return;}
+            if(state == 'OFF' || state == 'START') {return;}
             beep.play();
             myResetTimeout();
                 
@@ -270,10 +269,6 @@
             document.getElementById(led_id).style.color = "black";
             document.getElementById("p_set").innerHTML = "";
             document.getElementById("mode_set").innerHTML = "";
-        }
-
-        function myKeepWarm(){
-            if(state == 'OFF') {return;}
         }
 
         function myStart() {
@@ -329,8 +324,11 @@
         function decrementTime(){
             h = h; // 0 - 23
             m = m - 1; // 0 - 59
-            if(m < 0){
-                h = Math.max(0, h-1);
+            if(m < 0 && h > 0){
+                h = h-1;
+                m = 59;
+            }else if (m < 0 && h == 0){
+                h = 0;
                 m = 0;
             }
             
