@@ -9,47 +9,56 @@
         body { 
         background-image: url("background.png"); 
          background-repeat:no-repeat; 
-         background-size: 500px; 
+         background-size: 500px 820px; 
          background-position: center top; 
         }  
         div {
             margin: 50px;
         }
-        </style> 
+    </style> 
+
+    <script>
+        alert("Welcome to the Pressure Cooker Interface Redesign for CS6750. Please open on your PHONE or TOUCH SCREEN, and TURN UP VOLUME.");
+    </script>
+
 </head>
  
 <body>
     <!--<img src="background.png" width="500">-->
-    <div align = "center">
+    <div align = "center" style="width=500px">
     <text style = "font-size: 35px" id="MyClockDisplay" class="clock" onload="showTime()"></text> <br>
-    <font size="2" id="LEDOn">PREHEAT</font>
+    <font size="2" id="LEDOn">PREHEAT</font> <br> <font size="2" id="p_set"></font> <br><font size="2" id="mode_set"></font> 
     <br>
     <button onclick="myIncrement()">+</button>
     <button onclick="myDecrement()">-</button>
-    <button onclick="myStart()">Start/Cancel</button>
     <br>    
-    <button onclick="myDelay(6,00)">Delay</button>
     <button onclick="myKeepWarm()">Keep Warm</button>
+    <button onclick="myStart()">Start/Cancel</button>
+<!--    <button onclick="myDelay(6,00)">Delay</button> -->
     <br>
     <br>
     
-    <font size="2" >PRESSURE</font>
-    <font size="7" id="LEDL">-</font>
-    <font size="7" id="LEDH">-</font>
+    <font size="1" id ="low" >Low</font>
+    <font size="1" id = "high">High</font>
+    <br>
+    <font size="2" >Pressure</font>
+    <font size="4" id="LEDL">&#9605</font>
+    <font size="4" id="LEDH">&#9605</font>
     <button onclick="myPressure()">Pressure</button>
     <br>
     
     
-    <font size="2" >TEMP</font>
-    <font size="7" id="LEDkL">-</font>
-    <font size="7" id="LEDkN">-</font>
-    <font size="7" id="LEDkH">-</font>
-    <button onclick="myAdjust()">Temperature</button>
+    <font size="2" >Modes</font>
+    <font size="4" id="LEDkL">&#9605</font>
+    <font size="4" id="LEDkN">&#9605</font>
+    <font size="4" id="LEDkH">&#9605</font>
+    <button onclick="myAdjust()">Adjust</button>
     <br>    <hr>
-    <font size="7" id="LED1">.</font>
-    <button onclick="myFunction(0, 30, 'H', 'N', 'LED1')">Soup</button>
-    <font size="7" id="LED2">.</font>
-    <button onclick="myFunction(0, 35, 'H', 'N', 'LED2')">Meat</button>
+    <font size="5" id="LED1">&#9679</font>
+    <button onclick="myFunction(0, 30, 'H', 'N', 'LED1', 'SOUP')">Soup</button>
+    <font size="5" id="LED2">&#9679</font>
+    <button onclick="myFunction(0, 35, 'H', 'N', 'LED2', 'MEAT')">Meat</button>
+    <!--
     <font size="7" id="LED3">.</font>
     <button onclick="myFunction(0, 30, 'H', 'N', 'LED3')">Bean</button>
     <font size="7" id="LED4">.</font>
@@ -62,30 +71,40 @@
     <button onclick="myFunction(0, 20, 'H', 'N', 'LED7')">Porr</button> 
     <font size="7" id="LED8">.</font>
     <button onclick="myFunction(0, 10, 'H', 'N', 'LED8')">Steam</button>
-
-    <font size="7" id="LED9">.</font>
-    <button onclick="myFunction(4, 00,'X', 'N', 'LED9')">Slow</button> 
-    <font size="7" id="LED10">.</font>
-    <button onclick="myFunction(0, 30,'X', 'N', 'LED10')">Saute</button>
+    
+    -->
+    <font size="5" id="LED9">&#9679</font>
+    <button onclick="myFunction(4, 00,'X', 'N', 'LED9', 'SLOWCOOK')">Slow</button> 
+    <font size="5" id="LED10">&#9679</font>
+    <button onclick="myFunction(0, 30,'X', 'N', 'LED10', 'SAUTE')">Saute</button>
+    <!--
     <font size="7" id="LED11">.</font>
     <button onclick="myFunction(8, 00,'X', 'N', 'LED11')">Yogurt</button>
     <font size="7" id="LED12">.</font>
     <button onclick="myFunction(0, 30, 'H', 'X', 'LED12')">Manual</button>
+-->
     </div>
 
 
 
 
-    <script>
+
+    <script defer>
         let state = 'OFF';
         var audio = new Audio("game-start-6104.mp3");
         var beep = new Audio("beep-sound-8333.mp3");
         document.getElementById("MyClockDisplay").style.color = "red";
+        document.getElementById("p_set").style.color = "red";
+        document.getElementById("mode_set").style.color = "red";
+        var beeptime = 0;
+        var myVar;
+        var program;
 
         var blink;
 
-        function myFunction(hour,time, pressure, key, led) {
+        function myFunction(hour,time, pressure, key, led, preset) {
             state = 'ON';
+            program = preset;
             beep.play();
             setTime(hour, time);
             pressure_setting = pressure;
@@ -93,38 +112,18 @@
             if(typeof led_id !== 'undefined'){document.getElementById(led_id).style.color = "black";}
             led_id = led;
             document.getElementById(led_id).style.color = "red";
-            if (pressure_setting == 'H'){
-            document.getElementById("LEDH").style.color = "red";
-            document.getElementById("LEDL").style.color = "black";}
-            else if (pressure_setting == 'L'){
-            document.getElementById("LEDH").style.color = "black";
-            document.getElementById("LEDL").style.color = "red";}
-            else {
-            document.getElementById("LEDH").style.color = "black";
-            document.getElementById("LEDL").style.color = "black";}
-            if (key_setting == 'L'){
-            document.getElementById("LEDkH").style.color = "black";
-            document.getElementById("LEDkN").style.color = "black";
-            document.getElementById("LEDkL").style.color = "red";}
-            else if (key_setting == 'N'){
-            document.getElementById("LEDkH").style.color = "black";
-            document.getElementById("LEDkN").style.color = "red";
-            document.getElementById("LEDkL").style.color = "black";}
-            else {
-            document.getElementById("LEDkH").style.color = "black";
-            document.getElementById("LEDkH").style.color = "black";
-            document.getElementById("LEDkL").style.color = "black";}
+            setmyPressure(pressure_setting);
+            setmyMode(key_setting);
             myResetTimeout();
-            myBlinkTimeout(1);
         }
         function myIncrement() {
-            if(state == 'OFF') {return;}
+            if(state == 'OFF' || state == 'START') {return;}
             beep.play();
             incrementTime();
             myResetTimeout();
         }
         function myDecrement() {
-            if(state == 'OFF') {return;}
+            if(state == 'OFF' || state == 'START') {return;}
             beep.play();
             decrementTime();
             myResetTimeout();
@@ -139,7 +138,24 @@
             setTimeout(function(){
                 setTime(time);
                 myVar = setTimeout(function(){
-                audio.play();}, 10000);}, 10000);
+                myResetTimeout();}, 10000);}, 10000);
+        }
+        function setmyPressure(setting){
+            if(setting == 'H'){
+            document.getElementById("LEDH").style.color = "red";
+            document.getElementById("LEDL").style.color = "black";
+            document.getElementById("p_set").innerHTML = "10-11 psi";
+            }
+            else if (setting == 'L'){
+            document.getElementById("LEDH").style.color = "black";
+            document.getElementById("LEDL").style.color = "red";
+            document.getElementById("p_set").innerHTML = "5-7 psi";
+            }
+            else {
+            document.getElementById("LEDH").style.color = "black";
+            document.getElementById("LEDL").style.color = "black";
+            document.getElementById("p_set").innerHTML = "";
+            }
         }
         function myPressure() {
             if(state == 'OFF') {return;}
@@ -147,51 +163,98 @@
             myResetTimeout();
                 
             if(pressure_setting == 'H'){
+                setmyPressure('L');
                 pressure_setting = 'L';
-                document.getElementById("LEDH").style.color = "black";
-                document.getElementById("LEDL").style.color = "red";
             }
             else if (pressure_setting == 'L'){
-                pressure_setting = 'H';
-                document.getElementById("LEDH").style.color = "red";
-                document.getElementById("LEDL").style.color = "black";
+                setmyPressure('H');
+                pressure_setting ='H';
             }
         }
-
+        function setmyMode(key){
+            if (key == 'L'){
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkN").style.color = "black";
+            document.getElementById("LEDkL").style.color = "red";
+            if (program == 'KEEPWARM'){
+                document.getElementById("mode_set").innerHTML = "63C";
+            }else if (program == 'SLOWCOOK'){
+                document.getElementById("mode_set").innerHTML = "82-87C";
+            }else if (program == 'SAUTE'){
+                document.getElementById("mode_set").innerHTML = "135-150C";
+            }else{
+                document.getElementById("mode_set").innerHTML = "Less";
+            }
+        }
+            else if (key == 'N'){
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkN").style.color = "red";
+            document.getElementById("LEDkL").style.color = "black";
+            if (program == 'KEEPWARM'){
+                document.getElementById("mode_set").innerHTML = "63C";
+            }else if (program == 'SLOWCOOK'){
+                document.getElementById("mode_set").innerHTML = "87-93C";
+            }else if (program == 'SAUTE'){
+                document.getElementById("mode_set").innerHTML = "160-176C";
+            }else{
+                document.getElementById("mode_set").innerHTML = "Norm";
+            }
+        }
+            else if (key == 'H'){
+            document.getElementById("LEDkH").style.color = "red";
+            document.getElementById("LEDkN").style.color = "black";
+            document.getElementById("LEDkL").style.color = "black";
+            if (program == 'KEEPWARM'){
+                document.getElementById("mode_set").innerHTML = "63C";
+            }else if (program == 'SLOWCOOK'){
+                document.getElementById("mode_set").innerHTML = "93-99C";
+            }else if (program == 'SAUTE'){
+                document.getElementById("mode_set").innerHTML = "175-210C";
+            }else{
+                document.getElementById("mode_set").innerHTML = "More";
+            }
+        }
+            else {
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkH").style.color = "black";
+            document.getElementById("LEDkL").style.color = "black";
+        }
+        }
         function myAdjust() {
             if(state == 'OFF') {return;}
             beep.play();
             myResetTimeout();
                 
             if (key_setting == 'L'){
+                setmyMode('N');
                 key_setting = 'N';
-                document.getElementById("LEDkH").style.color = "black";
-                document.getElementById("LEDkN").style.color = "red";
-                document.getElementById("LEDkL").style.color = "black";}
+            }
             else if (key_setting == 'N'){
+                setmyMode('H');
                 key_setting = 'H';
-                document.getElementById("LEDkH").style.color = "red";
-                document.getElementById("LEDkN").style.color = "black";
-                document.getElementById("LEDkL").style.color = "black";}
+            }
             else if (key_setting == 'H'){
+                setmyMode('L');
                 key_setting = 'L';
-                document.getElementById("LEDkH").style.color = "black";
-                document.getElementById("LEDkN").style.color = "black";
-                document.getElementById("LEDkL").style.color = "red";}
+            }
             else {
-                document.getElementById("LEDkH").style.color = "black";
-                document.getElementById("LEDkH").style.color = "black";
-                document.getElementById("LEDkL").style.color = "black";}
+                setmyMode('X');}
         }
 
         function myResetTimeout(){
-            if(typeof myVar !== 'undefined') {clearTimeout(myVar);}
-            if(typeof blink !== 'undefined') {clearTimeout(blink);}
-            var myVar = setTimeout(function(){
+            clearTimeout(myVar)
+            clearTimeout(blink); 
+            beeptime = 0;
+            myVar = setTimeout(function(){
                 myStart();}, 10000);
+            myBlinkTimeout(1);
         }
         
         function myBlinkTimeout(opacity) {
+            beeptime = beeptime + 1;
+            if(beeptime > 13){
+                beep.play();
+            }
             console.log(opacity)
             document.getElementById("MyClockDisplay").style.opacity = opacity;
             opacity = (opacity + 1) % 2;
@@ -205,6 +268,12 @@
             document.getElementById("LEDH").style.color = "black";
             document.getElementById("LEDL").style.color = "black";
             document.getElementById(led_id).style.color = "black";
+            document.getElementById("p_set").innerHTML = "";
+            document.getElementById("mode_set").innerHTML = "";
+        }
+
+        function myKeepWarm(){
+            if(state == 'OFF') {return;}
         }
 
         function myStart() {
@@ -216,9 +285,11 @@
                 document.getElementById("MyClockDisplay").innerText = 'OFF';
                 document.getElementById("LEDOn").style.color = "black";
                 myResetLED();
+                
             }
             else{
                 clearTimeout(blink);
+                beeptime = 0;
                 document.getElementById("MyClockDisplay").style.opacity = 1;
                 state = 'START';
                 audio.play();
